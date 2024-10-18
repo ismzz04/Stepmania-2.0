@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taula de Classificacions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Press Start 2P', sans-serif;
+            overflow-y: scroll;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .title {
+            font-size: 60px;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            margin-bottom: 20px;
+            z-index: 5;
+            position: relative;
+        }
+
+        .ranking-container {
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            overflow-x: auto;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 18px;
+            color: #00ff00;
+            text-align: center;
+        }
+
+        .ranking-table th, .ranking-table td {
+            padding: 12px;
+            border: 1px solid #ffffff;
+        }
+
+        .ranking-table th {
+            background-color: #333333;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+
+        .ranking-table tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .ranking-table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .home-icon {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            z-index: 2;
+        }
+
+        .home-icon img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .home-icon img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <video autoplay muted loop id="background-video">
+            <source src="dance.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <a href="Stepmania.html" class="home-icon">
+        <img src="home.png" alt="Inici">
+    </a>
+
+    <div class="content">
+        <h1 class="title">Taula de Classificacions</h1>
+        
+        <div class="ranking-container">
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>Posició</th>
+                        <th>Nom</th>
+                        <th>Puntuació</th>
+                        <th>Rang</th>
+                        <th>Cançó</th>
+                    </tr>
+                </thead>
+                <tbody id="ranking">
+                    <!-- Aquí se llenará con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRankings();
+        });
+
+        function loadRankings() {
+            let rankings = JSON.parse(localStorage.getItem('rankings')) || [];
+
+            let tableHTML = '';
+            rankings.forEach((entry, index) => {
+                tableHTML += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.score}</td>
+                    <td>${entry.rank}</td>
+                    <td>${entry.song}</td>
+                </tr>`;
+            });
+
+            document.getElementById('ranking').innerHTML = tableHTML;
+        }
+    </script>
+
+</body>
+</html>
